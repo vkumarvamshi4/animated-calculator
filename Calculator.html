@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animated Calculator</title>
+<style>
+    *{
+        margin:0; padding:0;
+        box-sizing:border-box;
+        font-family: "Poppins", sans-serif;
+    }
+
+   body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background: linear-gradient(135deg, #e0e7ff, #fdf2f8);
+}
+
+
+
+
+    .calculator{
+    width:320px;
+    background: rgba(255,255,255,0.7);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    backdrop-filter: blur(20px);
+}
+
+
+    @keyframes fadeIn {
+        from {opacity:0; transform:translateY(30px);}
+        to {opacity:1; transform:translateY(0);}
+    }
+
+    #display{
+    height:60px;
+    width:100%;
+    background:#fff;
+    margin-bottom:15px;
+    border-radius:10px;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    padding:10px;
+    font-size:28px;
+    font-weight:600;
+    overflow-x:auto;
+    color:#111; /* DARK TEXT */
+}
+
+
+    .buttons{
+        display:grid;
+        grid-template-columns: repeat(4,1fr);
+        gap:10px;
+    }
+
+   button{
+    padding:18px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(5px);
+    color:#111; /* DARK TEXT */
+    cursor:pointer;
+    transition: transform 0.15s ease, background 0.2s;
+}
+
+
+    button:hover{
+        background:rgba(255,255,255,0.4);
+        transform:scale(1.05);
+    }
+
+    button:active{
+        transform:scale(0.93);
+    }
+
+   .equal {
+    background:#22c55e;
+    color:#fff;
+}
+
+    .equal:hover {
+        background:#16a34a;
+    }
+
+    .operator{
+    background:#fbbf24;
+    color:#111;
+}
+
+    .operator:hover{
+        background:#d97706;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <div id="display"></div>
+    <div class="buttons">
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="deleteChar()">DEL</button>
+        <button onclick="appendOperator('%')" class="operator">%</button>
+        <button onclick="appendOperator('/')" class="operator">÷</button>
+
+        <button onclick="appendNumber('7')">7</button>
+        <button onclick="appendNumber('8')">8</button>
+        <button onclick="appendNumber('9')">9</button>
+        <button onclick="appendOperator('*')" class="operator">×</button>
+        
+        <button onclick="appendNumber('4')">4</button>
+        <button onclick="appendNumber('5')">5</button>
+        <button onclick="appendNumber('6')">6</button>
+        <button onclick="appendOperator('-')" class="operator">−</button>
+
+        <button onclick="appendNumber('1')">1</button>
+        <button onclick="appendNumber('2')">2</button>
+        <button onclick="appendNumber('3')">3</button>
+        <button onclick="appendOperator('+')" class="operator">+</button>
+
+        <button onclick="appendNumber('0')">0</button>
+        <button onclick="appendNumber('.')">.</button>
+        <button onclick="calculate()" class="equal">=</button>
+    </div>
+</div>
+
+<script>
+let display = document.getElementById("display");
+
+function appendNumber(num){
+    display.innerText += num;
+}
+
+function appendOperator(op){
+    if(display.innerText === "") return;
+    let lastChar = display.innerText.slice(-1);
+    if("+-*/%".includes(lastChar)) return;
+    display.innerText += op;
+}
+
+function clearDisplay(){
+    display.innerText = "";
+}
+
+function deleteChar(){
+    display.innerText = display.innerText.slice(0, -1);
+}
+
+function calculate() {
+    try{
+        display.innerText = eval(display.innerText);
+    } catch {
+        display.innerText = "Error";
+        setTimeout(()=> display.innerText="", 800)
+    }
+}
+</script>
+
+</body>
+</html>
