@@ -11,47 +11,65 @@
         font-family: "Poppins", sans-serif;
     }
 
-   body{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    background: linear-gradient(135deg, #e0e7ff, #fdf2f8);
-}
-
-
-
+    body{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        background: linear-gradient(135deg, #e0e7ff, #fdf2f8);
+        transition: background 0.4s ease;
+    }
 
     .calculator{
-    width:320px;
-    background: rgba(255,255,255,0.7);
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
-    backdrop-filter: blur(20px);
-}
-
+        width:320px;
+        background: rgba(255,255,255,0.7);
+        padding:20px;
+        border-radius:15px;
+        box-shadow:0 8px 20px rgba(0,0,0,0.15);
+        backdrop-filter: blur(20px);
+        animation: fadeIn 0.8s ease-in-out;
+    }
 
     @keyframes fadeIn {
         from {opacity:0; transform:translateY(30px);}
         to {opacity:1; transform:translateY(0);}
     }
 
+    .theme-toggle {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+    }
+
+    #theme-icon {
+        font-size: 24px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    #theme-icon:hover {
+        transform: scale(1.2) rotate(15deg);
+    }
+
     #display{
     height:60px;
     width:100%;
-    background:#fff;
+    background:#e6f4ff;  /* light sky blue */
+    border:2px solid #93c5fd;
     margin-bottom:15px;
-    border-radius:10px;
+    border-radius:12px;
     display:flex;
     justify-content:flex-end;
     align-items:center;
-    padding:10px;
-    font-size:28px;
-    font-weight:600;
+    padding:12px;
+    font-size:30px;
+    font-weight:700;
     overflow-x:auto;
-    color:#111; /* DARK TEXT */
+    color:#111;
+    box-shadow: 0 0 12px rgba(147,197,253,0.6);
+
 }
+
 
 
     .buttons{
@@ -60,21 +78,20 @@
         gap:10px;
     }
 
-   button{
-    padding:18px;
-    font-size:18px;
-    border:none;
-    border-radius:10px;
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(5px);
-    color:#111; /* DARK TEXT */
-    cursor:pointer;
-    transition: transform 0.15s ease, background 0.2s;
-}
-
+    button{
+        padding:18px;
+        font-size:18px;
+        border:none;
+        border-radius:10px;
+        background: rgba(255,255,255,0.6);
+        backdrop-filter: blur(5px);
+        color:#111;
+        cursor:pointer;
+        transition: transform 0.15s ease, background 0.2s;
+    }
 
     button:hover{
-        background:rgba(255,255,255,0.4);
+        background:rgba(255,255,255,0.8);
         transform:scale(1.05);
     }
 
@@ -82,30 +99,68 @@
         transform:scale(0.93);
     }
 
-   .equal {
-    background:#22c55e;
-    color:#fff;
-}
+    .equal {
+        background:#22c55e;
+        color:white;
+    }
 
     .equal:hover {
         background:#16a34a;
     }
 
     .operator{
-    background:#fbbf24;
-    color:#111;
-}
+        background:#fbbf24;
+        color:#111;
+    }
 
     .operator:hover{
         background:#d97706;
+        color:white;
     }
 
+    /* DARK MODE */
+    body.dark{
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+    }
+
+    body.dark #display{
+    background:#e2e8f0;
+    color:#000;
+}
+
+
+ body.dark .operator{
+    background:#fbbf24;
+    color:#000;
+}
+
+
+}
+
+    }
+
+    body.dark .operator{
+        background:#2563eb;
+        color:white;
+    }
+
+    body.dark .equal{
+        background:#16a34a;
+        color:white;
+    }
 </style>
 </head>
 <body>
 
 <div class="calculator">
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+      <span id="theme-icon">🌙</span>
+    </div>
+
     <div id="display"></div>
+
     <div class="buttons">
         <button onclick="clearDisplay()">C</button>
         <button onclick="deleteChar()">DEL</button>
@@ -163,6 +218,27 @@ function calculate() {
         setTimeout(()=> display.innerText="", 800)
     }
 }
+
+// THEME TOGGLE
+const themeIcon = document.getElementById("theme-icon");
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "dark") {
+  document.body.classList.add("dark");
+  themeIcon.textContent = "☀️";
+}
+
+themeIcon.onclick = () => {
+  document.body.classList.toggle("dark");
+
+  if(document.body.classList.contains("dark")) {
+    themeIcon.textContent = "☀️";
+    localStorage.setItem("theme", "dark");
+  } else {
+    themeIcon.textContent = "🌙";
+    localStorage.setItem("theme", "light");
+  }
+};
 </script>
 
 </body>
